@@ -82,48 +82,153 @@ namespace Heap
             return node;
         }
 
-        private void UpHeap(int start)
+        private void UpHeap(int start) //int j
         {
-            int position = start;
-            while (position != 1)
+            int position = start; //int p = parent j
+            while (position != 1) //while j > 0 //continue until reaching root (or break statement)
             {
+                //if (compare(heap.get(j), heap.get(p)) >=0) break;
+                //swap(j, p);
+                //heap property verified
                 if (comparer.Compare(data[position].Key, data[position / 2].Key) < 0) Swap(position, position / 2);
-                position = position / 2;
+                position = position / 2; //j = p //continue from parent's location
             }
         }
-
-        // This method swaps two elements in the list representing the heap. 
-        // Use it when you need to swap nodes in your solution, e.g. in DownHeap() that you will need to develop.
-        private void Swap(int from, int to)
+        // j  = parent 
+        //left = return 2 * j 
+        //hasLeft(int j) {return left(j) < heap.size()
+        /*private void Downheap(int position)
         {
-            Node temp = data[from];
-            data[from] = data[to];
-            data[to] = temp;
-            data[to].Position = to;
-            data[from].Position = from;
-        }
+            //int position = end;
+            //int leftChild = position * 2+1;
+            //int rightChild = position * 2 + 2;
+            //int parent = position;
+            position = 0;
+            int GetLeftChildIndex = 2 * position + 1;
+            int GetRightChildIndex = 2 * position + 2;
+            int GetParentIndex = (position - 1) / 2;
 
-        public void Clear()
-        {
-            for (int i = 0; i<=Count; i++) data[i].Position = -1;
-            data.Clear();
-            data.Add(new Node(default(K), default(D), 0));
-            Count = 0;
-        }
+            bool HasLeftChild = GetLeftChildIndex < data.Count;
+            bool HasRightChild = GetRightChildIndex < data.Count;
+            bool IsRoot = position == 0;
 
-        public override string ToString()
+            var GetLeftChild = data[GetLeftChildIndex];
+            var GetRightChild = data[GetRightChildIndex];
+            var GetParent = data[GetParentIndex];
+            var biggerIndex = GetLeftChildIndex;
+            while (HasLeftChild) { 
+                if(HasRightChild && (GetRightChildIndex > GetLeftChildIndex))
+                {
+                    biggerIndex = GetRightChildIndex;
+                }
+                if(data[biggerIndex] < data[position])
+                {
+                    //
+                }
+                    }*/
+
+
+
+        //if ((leftChild <= data.Count) && (this.data[leftChild] > this.data[largest]))
+        //if ((data[leftChild] != null) && (data[rightChild] != null))
+        //    {
+        //
+        //        //if (array[2 * i + 1].element.compareTo(array[2 * i + 2].element) < 0)
+        //        
+        //            Swap(position, leftChild);
+        //            Downheap(leftChild);
+        //    }
+        //else if
+        //{
+        //    Swap(position, rightChild);
+        //    Downheap(rightChild);
+        //}
+        //
+        //else if (hasLeft(array[i]) && array[i].element.compareTo(array[2 * i + 1].element) > 0)
+        //    {
+        //        swap(i, 2 * i + 1);
+        //        downheap(2 * i + 1);
+        //    }
+        // else if(hasRight(array[i]) && array[i].element.compareTo(array[2 * i + 2].element) > 0)
+        //    {
+        //        swap(i, 2 * i + 2);
+        //        downheap(2 * i + 2);
+        //    }
+        //int position = start;
+        //int leftChild = position * 2;
+        //int rightChild = position * 2 + 1;
+        //int minChild = leftChild;
+
+
+        //while(data[leftChild] != null)
+        //{
+        //    int leftIndex = leftChild;
+        //    int smallChildIndex = leftIndex;
+        //    if(data[rightChild] != null)
+        //    {
+        //        int rightIndex = rightChild;
+        //        if (comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
+        //        {
+        //            smallChildIndex = rightIndex; //right child is smaller
+        //        }
+        //            
+        //    }
+        //    if (comparer.Compare(data[smallChildIndex].Key, data[start].Key ) >= 0)
+        //    {
+        //        break;
+        //        Swap(position, smallChildIndex);
+        //        start = smallChildIndex;
+        //    }
+        //}
+        //moves the entry at index j lower, if necessary, to restore the heap property
+        /*while (hasLeft(j)) //continue to bottom (or break statement)
         {
-            if (Count == 0) return "[]";
-            StringBuilder s = new StringBuilder();
-            s.Append("[");
-            for (int i = 0; i < Count; i++)
+            int leftIndex = left(j);
+            int smallChildIndex = leftIndex; //although right may be smaller
+            if (hasRight(j))
             {
-                s.Append(data[i + 1]);
-                if (i + 1 < Count) s.Append(",");
+                int rightIndex = right(j);
+                if (compare(Heap.get(leftIndex), Heap.get(rightIndex)) > 0)
+                    smallChildIndex = rightIndex; //right child is smaller
             }
-            s.Append("]");
-            return s.ToString();
         }
+        if (compare(Heap.get(smallChildIndex), Heap.Get(j)) >= 0) break;
+        Swap(j, smallChildIndex);
+        j = smallChildIndex;*/
+    
+
+    // This method swaps two elements in the list representing the heap. 
+    // Use it when you need to swap nodes in your solution, e.g. in DownHeap() that you will need to develop.
+    private void Swap(int from, int to)
+    {
+        Node temp = data[from];
+        data[from] = data[to];
+        data[to] = temp;
+        data[to].Position = to;
+        data[from].Position = from;
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i <= Count; i++) data[i].Position = -1;
+        data.Clear();
+        data.Add(new Node(default(K), default(D), 0));
+        Count = 0;
+    }
+
+    public override string ToString()
+    {
+        if (Count == 0) return "[]";
+        StringBuilder s = new StringBuilder();
+        s.Append("[");
+        for (int i = 0; i < Count; i++)
+        {
+            s.Append(data[i + 1]);
+            if (i + 1 < Count) s.Append(",");
+        }
+        s.Append("]");
+        return s.ToString();
+    }
 
         // TODO: Your task is to implement all the remaining methods.
         // Read the instruction carefully, study the code examples from above as they should help you to write the rest of the code.
