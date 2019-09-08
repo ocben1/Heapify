@@ -81,7 +81,17 @@ namespace Heap
             UpHeap(Count);
             return node;
         }
-
+        public IHeapifyable<K, D> Delete()
+        {
+            if (Count == 0) throw new InvalidOperationException("The heap is empty.");
+            
+            IHeapifyable<K, D> answer = data[1];
+            Swap(1, Count);
+            data.Remove(data[Count]);
+            DownHeap(1);
+            Count--;
+            return answer;
+        }
         private void UpHeap(int start) //int j
         {
             int position = start; //int p = parent j
@@ -94,112 +104,198 @@ namespace Heap
                 position = position / 2; //j = p //continue from parent's location
             }
         }
-        // j  = parent 
-        //left = return 2 * j 
-        //hasLeft(int j) {return left(j) < heap.size()
-        /*private void Downheap(int position)
+        protected int left(int j) { return 2 * j; }
+        protected int right(int j) { return 2 * j + 1; }
+        protected int parent(int j) { return j / 2; }
+        protected bool hasLeft(int j) { return left(j) < Count; }
+        protected bool hasRight(int j) { return right(j) < Count; }
+        private void DownHeap(int j)
         {
-            //int position = end;
-            //int leftChild = position * 2+1;
-            //int rightChild = position * 2 + 2;
-            //int parent = position;
-            position = 0;
-            int GetLeftChildIndex = 2 * position + 1;
-            int GetRightChildIndex = 2 * position + 2;
-            int GetParentIndex = (position - 1) / 2;
-
-            bool HasLeftChild = GetLeftChildIndex < data.Count;
-            bool HasRightChild = GetRightChildIndex < data.Count;
-            bool IsRoot = position == 0;
-
-            var GetLeftChild = data[GetLeftChildIndex];
-            var GetRightChild = data[GetRightChildIndex];
-            var GetParent = data[GetParentIndex];
-            var biggerIndex = GetLeftChildIndex;
-            while (HasLeftChild) { 
-                if(HasRightChild && (GetRightChildIndex > GetLeftChildIndex))
-                {
-                    biggerIndex = GetRightChildIndex;
-                }
-                if(data[biggerIndex] < data[position])
-                {
-                    //
-                }
-                    }*/
-
-
-
-        //if ((leftChild <= data.Count) && (this.data[leftChild] > this.data[largest]))
-        //if ((data[leftChild] != null) && (data[rightChild] != null))
-        //    {
-        //
-        //        //if (array[2 * i + 1].element.compareTo(array[2 * i + 2].element) < 0)
-        //        
-        //            Swap(position, leftChild);
-        //            Downheap(leftChild);
-        //    }
-        //else if
-        //{
-        //    Swap(position, rightChild);
-        //    Downheap(rightChild);
-        //}
-        //
-        //else if (hasLeft(array[i]) && array[i].element.compareTo(array[2 * i + 1].element) > 0)
-        //    {
-        //        swap(i, 2 * i + 1);
-        //        downheap(2 * i + 1);
-        //    }
-        // else if(hasRight(array[i]) && array[i].element.compareTo(array[2 * i + 2].element) > 0)
-        //    {
-        //        swap(i, 2 * i + 2);
-        //        downheap(2 * i + 2);
-        //    }
-        //int position = start;
-        //int leftChild = position * 2;
-        //int rightChild = position * 2 + 1;
-        //int minChild = leftChild;
-
-
-        //while(data[leftChild] != null)
-        //{
-        //    int leftIndex = leftChild;
-        //    int smallChildIndex = leftIndex;
-        //    if(data[rightChild] != null)
-        //    {
-        //        int rightIndex = rightChild;
-        //        if (comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
-        //        {
-        //            smallChildIndex = rightIndex; //right child is smaller
-        //        }
-        //            
-        //    }
-        //    if (comparer.Compare(data[smallChildIndex].Key, data[start].Key ) >= 0)
-        //    {
-        //        break;
-        //        Swap(position, smallChildIndex);
-        //        start = smallChildIndex;
-        //    }
-        //}
-        //moves the entry at index j lower, if necessary, to restore the heap property
-        /*while (hasLeft(j)) //continue to bottom (or break statement)
-        {
-            int leftIndex = left(j);
-            int smallChildIndex = leftIndex; //although right may be smaller
-            if (hasRight(j))
+          
+            while (hasLeft(j))
             {
-                int rightIndex = right(j);
-                if (compare(Heap.get(leftIndex), Heap.get(rightIndex)) > 0)
-                    smallChildIndex = rightIndex; //right child is smaller
+                int leftIndex = left(j);
+                int smallChildIndex = leftIndex;
+                if(hasRight(j))
+                {
+                    int rightIndex = right(j);
+                    if(comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
+                    {
+                        smallChildIndex = rightIndex;
+                    }
+                }
+                if (comparer.Compare(data[smallChildIndex].Key, data[j].Key) >= 0)
+                {
+                    break;
+                }
+                Swap(j, smallChildIndex);
+                j = smallChildIndex;
             }
+                
         }
-        if (compare(Heap.get(smallChildIndex), Heap.Get(j)) >= 0) break;
-        Swap(j, smallChildIndex);
-        j = smallChildIndex;*/
-    
+            //{
+            //    int left = (2 * j);
+            //    int right = (2 * j) + 1;
+            //    int parent = (j) / 2;
+            //    while(left != 0)
+            //    {
+            //        int leftIndex = left;
+            //        int smallChildIndex = leftIndex;
+            //        if(right != 0)
+            //        {
+            //            int rightIndex = right;
+            //            if(comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
+            //                smallChildIndex = rightIndex;
+            //        }
+            //        if (comparer.Compare(data[smallChildIndex].Key, data[j].Key) > 0)
+            //            break;
+            //        Swap(j, smallChildIndex);
+            //        j = smallChildIndex;
+            //    }            
+            //}
+            // j  = parent 
+            //left = return 2 * j 
+            //hasLeft(int j) {return left(j) < heap.size()
+            //private void DownHeap(int end)
+            //{
+            //    int left = 2 * end + 1;
+            //    int right = 2 * end + 2;
+            //    int parent = (end - 1) / 2;
+            //    //while(left < data.Count)
+            //    while (left != 0 && right != 0)
+            //    {
+            //        int leftIndex = left;
+            //        int smallChildIndex = leftIndex;
+            //        if(right < data.Count)
+            //        {
+            //            int rightIndex = right;
+            //            if (comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
+            //            {
+            //                smallChildIndex = rightIndex;
+            //            }
+            //        }
+            //        if(comparer.Compare(data[smallChildIndex].Key, data[end].Key) >= 0)
+            //        {
+            //            break;
+            //        }
+            //        Swap(end, smallChildIndex);
+            //        end = smallChildIndex;
+            //    }
+            //}
+            //public IHeapifyable<K, D> Delete()
+            //{
+            //    if (Count == 0) throw new InvalidOperationException("The heap is empty.");
+            //    
+            //    var temp = data[1];
+            //    Swap(0, Count);
+            //    data.Remove(data[Count]);
+            //    DownHeap(0);
+            //
+            //    return temp;
+            //}
 
-    // This method swaps two elements in the list representing the heap. 
-    // Use it when you need to swap nodes in your solution, e.g. in DownHeap() that you will need to develop.
-    private void Swap(int from, int to)
+            /*{
+                //int position = end;
+                //int leftChild = position * 2+1;
+                //int rightChild = position * 2 + 2;
+                //int parent = position;
+                position = 0;
+                int GetLeftChildIndex = 2 * position + 1;
+                int GetRightChildIndex = 2 * position + 2;
+                int GetParentIndex = (position - 1) / 2;
+
+                bool HasLeftChild = GetLeftChildIndex < data.Count;
+                bool HasRightChild = GetRightChildIndex < data.Count;
+                bool IsRoot = position == 0;
+
+                var GetLeftChild = data[GetLeftChildIndex];
+                var GetRightChild = data[GetRightChildIndex];
+                var GetParent = data[GetParentIndex];
+                var biggerIndex = GetLeftChildIndex;
+                while (HasLeftChild) { 
+                    if(HasRightChild && (GetRightChildIndex > GetLeftChildIndex))
+                    {
+                        biggerIndex = GetRightChildIndex;
+                    }
+                    if(data[biggerIndex] < data[position])
+                    {
+                        //
+                    }
+                        }*/
+
+
+
+            //if ((leftChild <= data.Count) && (this.data[leftChild] > this.data[largest]))
+            //if ((data[leftChild] != null) && (data[rightChild] != null))
+            //    {
+            //
+            //        //if (array[2 * i + 1].element.compareTo(array[2 * i + 2].element) < 0)
+            //        
+            //            Swap(position, leftChild);
+            //            Downheap(leftChild);
+            //    }
+            //else if
+            //{
+            //    Swap(position, rightChild);
+            //    Downheap(rightChild);
+            //}
+            //
+            //else if (hasLeft(array[i]) && array[i].element.compareTo(array[2 * i + 1].element) > 0)
+            //    {
+            //        swap(i, 2 * i + 1);
+            //        downheap(2 * i + 1);
+            //    }
+            // else if(hasRight(array[i]) && array[i].element.compareTo(array[2 * i + 2].element) > 0)
+            //    {
+            //        swap(i, 2 * i + 2);
+            //        downheap(2 * i + 2);
+            //    }
+            //int position = start;
+            //int leftChild = position * 2;
+            //int rightChild = position * 2 + 1;
+            //int minChild = leftChild;
+
+
+            //while(data[leftChild] != null)
+            //{
+            //    int leftIndex = leftChild;
+            //    int smallChildIndex = leftIndex;
+            //    if(data[rightChild] != null)
+            //    {
+            //        int rightIndex = rightChild;
+            //        if (comparer.Compare(data[leftIndex].Key, data[rightIndex].Key) > 0)
+            //        {
+            //            smallChildIndex = rightIndex; //right child is smaller
+            //        }
+            //            
+            //    }
+            //    if (comparer.Compare(data[smallChildIndex].Key, data[start].Key ) >= 0)
+            //    {
+            //        break;
+            //        Swap(position, smallChildIndex);
+            //        start = smallChildIndex;
+            //    }
+            //}
+            //moves the entry at index j lower, if necessary, to restore the heap property
+            /*while (hasLeft(j)) //continue to bottom (or break statement)
+            {
+                int leftIndex = left(j);
+                int smallChildIndex = leftIndex; //although right may be smaller
+                if (hasRight(j))
+                {
+                    int rightIndex = right(j);
+                    if (compare(Heap.get(leftIndex), Heap.get(rightIndex)) > 0)
+                        smallChildIndex = rightIndex; //right child is smaller
+                }
+            }
+            if (compare(Heap.get(smallChildIndex), Heap.Get(j)) >= 0) break;
+            Swap(j, smallChildIndex);
+            j = smallChildIndex;*/
+
+
+          // This method swaps two elements in the list representing the heap. 
+        // Use it when you need to swap nodes in your solution, e.g. in DownHeap() that you will need to develop.
+        private void Swap(int from, int to)
     {
         Node temp = data[from];
         data[from] = data[to];
@@ -232,11 +328,7 @@ namespace Heap
 
         // TODO: Your task is to implement all the remaining methods.
         // Read the instruction carefully, study the code examples from above as they should help you to write the rest of the code.
-        public IHeapifyable<K, D> Delete()
-        {
-            // You should replace this plug by your code.
-            throw new NotImplementedException();
-        }
+      
 
         // Builds a minimum binary heap using the specified data according to the bottom-up approach.
         public IHeapifyable<K, D>[] BuildHeap(K[] keys, D[] data)

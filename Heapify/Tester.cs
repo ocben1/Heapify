@@ -102,7 +102,7 @@ namespace Heap
                 result = result + "-";
             }
 
-            // test 4
+             //test 4
             try
             {
                 Console.WriteLine("\n\nTest D: Delete the minimum element from the min-heap.");
@@ -121,7 +121,7 @@ namespace Heap
                 Console.WriteLine("Last operation is invalid and must throw InvalidOperationException. Your solution does not match specification.");
                 result = result + "-";
             }
-
+            
             // test 5
             try
             {
@@ -129,7 +129,7 @@ namespace Heap
                 Console.WriteLine("\nInsert a node with name {0} (data) and ID {1} (key).", names[0], IDs[0]);
                 IHeapifyable<int, string> node = minHeap.Insert(IDs[0], names[0]);
                 Console.WriteLine(" :: SUCCESS: min-heap's state " + minHeap.ToString());
-
+            
                 Console.WriteLine("\nBuild the min-heap for the pair of key-value arrays with \n[{0}] as keys and \n[{1}] as data elements", String.Join(", ", IDs), String.Join(", ", names));
                 nodes = minHeap.BuildHeap(IDs, names);
                 Console.WriteLine("Last operation is invalid and must throw InvalidOperationException. Your solution does not match specification.");
@@ -146,12 +146,12 @@ namespace Heap
                 Console.WriteLine("Last operation is invalid and must throw InvalidOperationException. Your solution does not match specification.");
                 result = result + "-";
             }
-
+            
             // test 6
             try
             {
                 Console.WriteLine("\n\nTest F: Run a sequence of operations: ");
-
+            
                 Console.WriteLine("\nClear the min-heap.");
                 minHeap.Clear();
                 Console.WriteLine(" :: SUCCESS: min-heap's state " + minHeap.ToString());
@@ -172,25 +172,25 @@ namespace Heap
                 Console.WriteLine(exception.ToString());
                 result = result + "-";
             }
-
-
+            
+            
             // test 7
             try
             {
                 Console.WriteLine("\n\nTest G: Run a sequence of operations: ");
-
+            
                 IHeapifyable<int, string> node = nodes[nodes.Length - 1];
-
+            
                 Console.WriteLine("\nDelete the minimum element from the min-heap.");
                 minHeap.Delete();
                 Console.WriteLine(" :: SUCCESS: min-heap's state " + minHeap.ToString());
                 Console.WriteLine("\nDelete the minimum element from the min-heap.");
                 minHeap.Delete();
                 Console.WriteLine(" :: SUCCESS: min-heap's state " + minHeap.ToString());
-
+            
                 Console.WriteLine("\nRun DecreaseKey(node,0) for node {0} by setting the new value of its key to 0", node);
                 minHeap.DecreaseKey(node, 0);
-
+            
                 if (minHeap.Count != certificateMinHeapBuild.Length - 2) throw new Exception("The resulting min-heap has a wrong number of elements");
                 if (!((node.Position == 1) && (minHeap.Min().Key == node.Key))) throw new Exception("The min-heap has a wrong structure");
                 Console.WriteLine(" :: SUCCESS: min-heap's state " + minHeap.ToString());
@@ -202,8 +202,8 @@ namespace Heap
                 Console.WriteLine(exception.ToString());
                 result = result + "-";
             }
-
-
+            
+            
             // test 8
             try
             {
